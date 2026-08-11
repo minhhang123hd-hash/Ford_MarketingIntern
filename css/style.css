@@ -638,3 +638,49 @@ body.intro-open{overflow:hidden}
     }
 
 }
+.brand-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    border: 0;
+    background: transparent;
+
+    cursor: pointer;
+    padding: 0;
+}
+
+.ford-logo {
+    width: auto;
+    height: 20px;
+
+    object-fit: contain;
+}
+
+.ford-wordmark {
+    color: #fff;
+
+    font: 800 20px var(--display);
+
+    line-height: 1;
+
+    letter-spacing: .12em;
+}
+
+.nav-divider {
+    width: 1px;
+    height: 18px;
+
+    margin: 0 3px;
+
+    background:
+        rgba(255,255,255,.25);
+}
+
+.candidate-name {
+    color: rgba(255,255,255,.55);
+
+    font: 9px var(--mono);
+
+    letter-spacing: .15em;
+}
