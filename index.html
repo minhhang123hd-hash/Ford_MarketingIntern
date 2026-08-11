@@ -1,155 +1,290 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>[Tên bạn] × Ford — Internship Portfolio</title>
-<meta name="description" content="Interactive portfolio built for the Ford Internship Program." />
-<link rel="icon" href="assets/ford-logo.png" />
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đoàn Thị Minh Hằng × Ford — Marketing Internship Portfolio</title>
+  <meta name="description" content="Đoàn Thị Minh Hằng — Marketing Intern portfolio for the Ford 12-month internship program.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-<!-- ===================== LOADER ===================== -->
-<div class="loader" id="loader">
-  <img src="assets/ford-logo.png" alt="Ford" class="loader__logo" />
-  <div class="loader__bar"><div class="loader__fill" id="loaderFill"></div></div>
-  <p class="loader__label">STARTING ENGINE…</p>
-</div>
-
-<!-- ===================== FIXED CHROME (nav / progress) ===================== -->
-<header class="chrome" id="chrome">
-  <div class="chrome__brand">
-    <img src="assets/ford-logo.png" alt="Ford" class="chrome__logo" />
-    <span class="chrome__divider"></span>
-    <span class="chrome__name" id="chromeName">[Tên bạn]</span>
+  <div class="loader" id="loader">
+    <div class="loader__mark">F</div>
+    <div class="loader__line"><span id="loaderFill"></span></div>
+    <p>INITIALIZING PORTFOLIO</p>
   </div>
-  <div class="chrome__meta">
-    <span class="chrome__role">Internship Portfolio</span>
-  </div>
-</header>
 
-<div class="progress-rail" id="progressRail" aria-hidden="true">
-  <div class="progress-rail__fill" id="progressFill"></div>
-</div>
+  <div class="transition" id="transition"></div>
 
-<button class="skip-btn" id="skipBtn" type="button">Bỏ qua intro ↓</button>
+  <!-- ========================= INTRO PAGE ========================= -->
+  <main class="page page--intro is-active" id="introPage">
+    <video id="introVideo" class="intro-video" muted playsinline preload="auto"
+      poster="assets/video-poster.jpg">
+      <source src="assets/ford-territory-reveal.mp4" type="video/mp4">
+    </video>
+    <div class="intro-fallback"></div>
+    <div class="intro-vignette"></div>
 
-<main id="main">
+    <header class="intro-header">
+      <div class="ford-wordmark">FORD</div>
+      <div class="header-code">INTERNSHIP PROGRAM · 2026</div>
+    </header>
 
-  <!-- ===================== SCENE 1 — VIDEO REVEAL (scroll-scrubbed) ===================== -->
-  <section class="scene scene--video" id="sceneVideo" style="--scene-vh: 380;">
-    <div class="scene__sticky">
-      <video
-        id="revealVideo"
-        class="reveal-video"
-        muted
-        playsinline
-        preload="auto"
-        poster="assets/video-poster.jpg"
-        src="assets/ford-territory-reveal.mp4"
-      ></video>
-      <div class="reveal-video__vignette"></div>
-
-      <div class="hero-copy" id="heroCopy">
-        <p class="eyebrow">FORD INTERNSHIP PROGRAM · 2026</p>
-        <h1 class="hero-title">
-          <span>[TÊN BẠN]</span>
-          <span class="hero-title__sub">for Ford Business &amp; Marketing</span>
-        </h1>
+    <div class="intro-content">
+      <p class="eyebrow">MARKETING × BUSINESS × GROWTH</p>
+      <h1>ĐOÀN THỊ<br><span>MINH HẰNG</span></h1>
+      <p class="intro-role">MARKETING INTERN · FOREIGN TRADE UNIVERSITY</p>
+      <div class="intro-metrics">
+        <span><b>3.8</b> GPA</span>
+        <span><b>+225%</b> AUDIENCE GROWTH</span>
+        <span><b>68.9K</b> CONTENT VIEWS</span>
       </div>
-
-      <div class="scroll-cue" id="scrollCue">
-        <span>Cuộn để khởi động</span>
-        <div class="scroll-cue__line"><i></i></div>
-      </div>
-
-      <div class="hud-line hud-line--tl">TERRITORY · PLATINUM</div>
-      <div class="hud-line hud-line--br" id="camAngle">CAM 01</div>
     </div>
-  </section>
 
-  <!-- ===================== SCENE 2 — DOORS SPLIT OPEN ===================== -->
-  <section class="scene scene--door" id="sceneDoor" style="--scene-vh: 180;">
-    <div class="scene__sticky">
-      <img src="assets/ambient-blue.jpg" alt="" class="door-bg" />
-      <div class="door-panel door-panel--top" id="doorTop"></div>
-      <div class="door-panel door-panel--bottom" id="doorBottom"></div>
-      <p class="door-caption" id="doorCaption">MỞ CỬA · BƯỚC VÀO KHOANG LÁI</p>
+    <button class="enter-btn" id="enterPortfolio">
+      <span>ENTER PORTFOLIO</span>
+      <i>↗</i>
+    </button>
+
+    <div class="intro-footer">
+      <span>SCROLL-CINEMATIC EXPERIENCE</span>
+      <span>01 / 02</span>
     </div>
-  </section>
+  </main>
 
-  <!-- ===================== SCENE 3 — COCKPIT / STEERING WHEEL CV ===================== -->
-  <section class="scene scene--cockpit" id="sceneCockpit" style="--scene-vh: 620;">
-    <div class="scene__sticky">
-      <img src="assets/ambient-blue.jpg" alt="" class="cockpit-bg" />
-      <div class="cockpit-vignette"></div>
+  <!-- ========================= PORTFOLIO PAGE ========================= -->
+  <main class="page page--portfolio" id="portfolioPage">
+    <div class="car-interior" aria-hidden="true">
+      <div class="windshield-glass"></div>
+      <div class="windshield-reflection reflection-a"></div>
+      <div class="windshield-reflection reflection-b"></div>
+      <div class="a-pillar a-pillar--left"></div>
+      <div class="a-pillar a-pillar--right"></div>
+      <div class="dashboard"></div>
+      <div class="dashboard-top"></div>
+      <div class="ambient-glow"></div>
+      <div class="cluster-glow"></div>
+    </div>
 
-      <!-- Windshield content panels -->
-      <div class="windshield" id="windshield">
-        <!-- panels injected by JS from content.js -->
+    <header class="portfolio-nav">
+      <button class="brand-btn" id="backToIntro" aria-label="Back to intro">
+        <span class="ford-wordmark">FORD</span>
+        <span class="nav-divider"></span>
+        <span>MINH HẰNG</span>
+      </button>
+      <nav id="sectionNav">
+        <button data-target="profile">PROFILE</button>
+        <button data-target="education">EDUCATION</button>
+        <button data-target="experience">EXPERIENCE</button>
+        <button data-target="skills">SKILLS</button>
+        <button data-target="achievements">ACHIEVEMENTS</button>
+        <button data-target="volunteer">VOLUNTEER</button>
+      </nav>
+      <a class="download-mini" href="assets/CV.pdf" download>CV PDF ↓</a>
+    </header>
+
+    <section class="cockpit-hero">
+      <div class="cockpit-copy">
+        <p class="eyebrow">02 / 02 · INSIDE THE DRIVER'S SEAT</p>
+        <h2>THE CV<br><span>BEHIND THE WHEEL.</span></h2>
+        <p>One profile. Six stations. A clear view of the experience, skills and results I can bring to Ford.</p>
       </div>
 
-      <!-- Steering wheel -->
-      <div class="wheel-wrap">
-        <svg class="wheel" id="wheel" viewBox="0 0 320 320" aria-hidden="true">
-          <circle class="wheel__rim" cx="160" cy="160" r="132"/>
-          <circle class="wheel__rim-inner" cx="160" cy="160" r="118"/>
-          <g class="wheel__spokes">
-            <rect x="152" y="46" width="16" height="90" rx="8"/>
-            <rect x="152" y="184" width="16" height="90" rx="8" transform="rotate(120 160 229)"/>
-            <rect x="152" y="184" width="16" height="90" rx="8" transform="rotate(240 160 229)"/>
-          </g>
-          <circle class="wheel__hub" cx="160" cy="160" r="46"/>
-          <text x="160" y="167" class="wheel__hub-text" text-anchor="middle">FORD</text>
-        </svg>
-        <div class="wheel-stop-label">
-          <span class="wheel-stop-label__num" id="stopNum">01</span>
-          <span class="wheel-stop-label__name" id="stopName">PROFILE</span>
+      <div class="steering-stage">
+        <div class="wheel-slot" id="wheelSlot">
+          <div class="wheel-placeholder">
+            <div class="wheel-placeholder__rings"></div>
+            <div class="wheel-placeholder__center">
+              <span>STEERING<br>WHEEL</span>
+              <small>DROP IMAGE / ADD PNG</small>
+            </div>
+          </div>
+          <img id="wheelImage" class="wheel-image" alt="Steering wheel" hidden>
+          <label class="wheel-upload">
+            ADD STEERING WHEEL IMAGE
+            <input id="wheelInput" type="file" accept="image/png,image/jpeg,image/webp">
+          </label>
+        </div>
+        <div class="steering-caption">
+          <span id="stationNo">01</span>
+          <span id="stationName">PROFILE</span>
         </div>
       </div>
 
-      <div class="dash-dots" id="dashDots"></div>
+      <div class="scroll-indicator">SCROLL TO EXPLORE <span>↓</span></div>
+    </section>
 
-      <p class="cockpit-hint" id="cockpitHint">Cuộn để xoay vô lăng &amp; khám phá hồ sơ</p>
-    </div>
-  </section>
-
-  <!-- ===================== SCENE 4 — END CARD ===================== -->
-  <section class="scene scene--end" id="sceneEnd">
-    <img src="assets/ambient-blue.jpg" alt="" class="end-bg" />
-    <div class="end-vignette"></div>
-    <div class="end-content">
-      <p class="eyebrow" id="endEyebrow"></p>
-      <h2 class="end-title" id="endHeadline"></h2>
-      <p class="end-body" id="endBody"></p>
-
-      <div class="end-actions">
-        <a class="btn btn--primary" id="endCta" href="mailto:youremail@example.com">Get in touch ↗</a>
-        <a class="btn btn--ghost" href="assets/CV.pdf" download>Tải CV (PDF)</a>
+    <section class="cv-shell">
+      <div class="cv-intro-strip">
+        <div>
+          <span class="eyebrow">DRIVER PROFILE</span>
+          <h3>ĐOÀN THỊ MINH HẰNG</h3>
+        </div>
+        <div class="contact-strip">
+          <span>0389 191 122</span>
+          <span>minhhang123.hd@gmail.com</span>
+          <span>Hanoi, Vietnam</span>
+        </div>
       </div>
 
-      <p class="end-commitment" id="endCommitment"></p>
+      <section class="cv-section" id="profile" data-station="01" data-label="PROFILE">
+        <div class="section-index">01</div>
+        <div class="section-content">
+          <p class="eyebrow">PROFILE</p>
+          <h2>MARKETING INTERN</h2>
+          <p class="lead">Senior International Business student at Foreign Trade University (GPA 3.8/4.0) with hands-on experience in market research, content strategy, and multi-channel campaign execution.</p>
+          <p>Co-author of 3 scientific research papers, demonstrating strong analytical rigor, data-driven thinking, and a rapid learning curve. Highly proactive, adaptable, and fully committed to dedicating 100% effort to Ford’s 12-month full-time internship program, with a strong drive to absorb intensive training, collaborate with cross-functional teams, and deliver impactful marketing solutions.</p>
+          <div class="stat-grid">
+            <div><strong>3.8/4.0</strong><span>GPA</span></div>
+            <div><strong>3</strong><span>Research papers</span></div>
+            <div><strong>12 MO</strong><span>Internship commitment</span></div>
+          </div>
+        </div>
+      </section>
 
-      <div class="end-contacts">
-        <span id="contactPhone"></span>
-        <span id="contactEmail"></span>
-        <span id="contactLinkedin"></span>
-      </div>
-    </div>
-    <footer class="site-footer">
-      Built with care for the Ford Internship Program — [Tên bạn], <span id="year"></span>.
-    </footer>
-  </section>
+      <section class="cv-section" id="education" data-station="02" data-label="EDUCATION">
+        <div class="section-index">02</div>
+        <div class="section-content">
+          <p class="eyebrow">EDUCATION</p>
+          <h2>BACHELOR OF INTERNATIONAL BUSINESS</h2>
+          <div class="timeline-card">
+            <div>
+              <h3>Foreign Trade University</h3>
+              <p>Sep 2023 – Sep 2027 (Expected)</p>
+            </div>
+            <strong class="big-score">3.8/4.0</strong>
+          </div>
+          <div class="tag-row">
+            <span>SCG Scholarship Recipient · 2024–2026</span>
+            <span>LOTTE Scholarship Recipient · 2023–2024</span>
+          </div>
+          <h4>Relevant Coursework · 4.0/4.0</h4>
+          <div class="course-grid">
+            <span>Principles of Marketing</span>
+            <span>International Marketing</span>
+            <span>Business Data Analytics</span>
+            <span>Branding in International Business</span>
+            <span>Communication in International Business</span>
+            <span>Programming for Data Analytics and Scientific Computing</span>
+          </div>
+        </div>
+      </section>
 
-</main>
+      <section class="cv-section" id="experience" data-station="03" data-label="EXPERIENCE">
+        <div class="section-index">03</div>
+        <div class="section-content">
+          <p class="eyebrow">EXPERIENCE</p>
+          <h2>RESULTS ON THE ODOMETER</h2>
 
-<script src="js/content.js"></script>
-<script src="js/main.js"></script>
+          <article class="experience-item">
+            <div class="exp-head"><h3>MARKETING INTERN · SKY PACIFIC VIETNAM</h3><span>Feb 2026 – Jun 2026</span></div>
+            <ul>
+              <li><b>Campaign Execution and Research:</b> Led a team of 10 to execute a 6-month IMC plan; conducted market research and user insight analysis to optimize communication messaging.</li>
+              <li><b>Content Operations:</b> Managed multi-platform content execution across TikTok and Facebook, directing creative briefs to align with campaign goals.</li>
+              <li><b>Performance Analysis:</b> Tracked key campaign metrics to drive brand awareness and B2C conversion, generating <b>68,920 content views</b> (53.7K on TikTok) and <b>46 qualified leads</b>.</li>
+            </ul>
+          </article>
+
+          <article class="experience-item">
+            <div class="exp-head"><h3>MULTIMEDIA LEAD · TEDxFTUHANOI 2025</h3><span>Jun 2025 – Oct 2025</span></div>
+            <ul>
+              <li><b>Growth Initiatives:</b> Scaled TikTok followers from 982 to 3,192 (+225%) and total likes to 21.4K by capitalizing on trends and script optimization, achieving a 153.9K-view viral video.</li>
+              <li><b>Cross-functional Collaboration:</b> Coordinated with Event & Editorial teams to produce media assets and align campaign messaging, contributing to a sold-out event (230 tickets).</li>
+              <li><b>Operations and Performance Tracking:</b> Managed multimedia contributors, streamlined content production workflows, and adjusted direction based on real-time engagement data.</li>
+            </ul>
+          </article>
+
+          <article class="experience-item">
+            <div class="exp-head"><h3>VICE HEAD OF COMMUNICATIONS · FTU STUDENT ASSOCIATION</h3><span>Aug 2024 – Sep 2025</span></div>
+            <ul>
+              <li><b>Marketing Operations and Resource Allocation:</b> Coordinated media resources for Association campaigns and events, ensuring optimal workforce allocation and on-time project execution.</li>
+              <li><b>Quality Control and Mentorship:</b> Reviewed and quality-controlled promotional assets to maintain strict brand standards while mentoring successor members in creative and communication skills.</li>
+              <li>Co-led the new member recruitment campaign, successfully engaging candidates and driving community expansion across Foreign Trade University.</li>
+            </ul>
+          </article>
+
+          <article class="experience-item">
+            <div class="exp-head"><h3>COMMUNICATIONS SUB-LEAD · “STUDENT OF 5 MERITS” CAMPAIGN — FTU</h3><span>Aug 2024 – Jan 2025</span></div>
+            <ul>
+              <li><b>Brand Identity and Launch:</b> Designed the complete brand identity and creative promotional assets for the newly established official fanpage.</li>
+              <li><b>Campaign Execution and Engagement Growth:</b> Planned and executed engaging content strategies that grew the fanpage to nearly <b>7,000 followers</b> and increased active student engagement in the Support Group from 850 to 1,100 members.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="cv-section" id="skills" data-station="04" data-label="SKILLS">
+        <div class="section-index">04</div>
+        <div class="section-content">
+          <p class="eyebrow">SKILLS</p>
+          <h2>WHAT'S UNDER THE HOOD</h2>
+          <div class="skills-grid">
+            <div class="skill-card"><h3>Marketing & Growth</h3><p>Content creation · Campaign Execution · Market & User Research · Creative Briefing</p></div>
+            <div class="skill-card"><h3>Design & Video</h3><p>Canva · Photoshop · Illustrator · Video editing: CapCut</p></div>
+            <div class="skill-card"><h3>Office Applications</h3><p>Microsoft Office: Word, Excel, PowerPoint · Google Workspace: Docs, Sheets, Drive</p></div>
+            <div class="skill-card"><h3>Tech & Digital</h3><p>Basic Web Development: HTML, CSS, JavaScript, GitHub · AI Applications in Digital Product Development</p></div>
+            <div class="skill-card"><h3>Soft Skills</h3><p>Communication & Relationship Building · Problem-Solving · Strategic Thinking · Teamwork · Leadership · Creative Thinking · Proactiveness & Responsibility · Continuous Learning & High Adaptability</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cv-section" id="achievements" data-station="05" data-label="ACHIEVEMENTS">
+        <div class="section-index">05</div>
+        <div class="section-content">
+          <p class="eyebrow">ACHIEVEMENTS</p>
+          <h2>PROOF OF DRIVE</h2>
+          <div class="achievement-list">
+            <div><strong>Co-author of 3 Scientific Research Papers</strong><span>2023–2026</span></div>
+            <div><strong>City-level “Student of 5 Merits”</strong><span>2024–2025</span></div>
+            <div><strong>Top 32 · IC Master: Master Communicator Contest</strong><span>2026</span></div>
+            <div><strong>Runner-Up · Freshman Reportage Contest</strong><span>2023</span></div>
+            <div><strong>Top 5 · CE Hackathon 2024 | Circular Economy Innovation Contest</strong><span>2024</span></div>
+          </div>
+          <div class="language-box">
+            <h3>LANGUAGES</h3>
+            <p><b>English:</b> B2 Level — Fully proficient in professional business communication & academic writing; actively targeting IELTS C1 (7.5+) in early 2027.</p>
+            <p><b>Chinese:</b> HSK 4</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="cv-section" id="volunteer" data-station="06" data-label="VOLUNTEER">
+        <div class="section-index">06</div>
+        <div class="section-content">
+          <p class="eyebrow">VOLUNTEER ACTIVITIES</p>
+          <h2>LEADING BEYOND THE JOB</h2>
+          <article class="experience-item volunteer-card">
+            <div class="exp-head"><h3>VOLUNTEER COORDINATOR · FTU BLOOD DONATION DAY</h3></div>
+            <ul>
+              <li>Managed and directed a team of <b>20 volunteers</b>, assigning tasks and tracking operational progress.</li>
+              <li>Participated in promotional outreach, contributing to attracting <b>over 200 blood donors</b>.</li>
+              <li>Directly engaged with donors and coordinated with the Organizing Committee to handle real-time operational issues.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="closing-section">
+        <p class="eyebrow">END OF THE ROAD — FOR NOW</p>
+        <h2>LET'S PUT THIS<br>ON THE ROAD TOGETHER.</h2>
+        <p>I'm committed to a full 12-month internship, ready to learn fast, collaborate across teams, and turn marketing challenges into measurable outcomes.</p>
+        <div class="closing-actions">
+          <a class="btn btn--primary" href="mailto:minhhang123.hd@gmail.com">GET IN TOUCH ↗</a>
+          <a class="btn btn--ghost" href="assets/CV.pdf" download>DOWNLOAD CV ↓</a>
+        </div>
+        <div class="closing-contact">
+          <span>0389 191 122</span>
+          <span>minhhang123.hd@gmail.com</span>
+          <span>58 Nguyen Khanh Toan, Cau Giay, Ha Noi</span>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="js/content.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
