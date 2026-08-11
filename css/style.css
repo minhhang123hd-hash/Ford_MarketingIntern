@@ -169,3 +169,76 @@ body.intro-open{overflow:hidden}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}.transition{animation:none!important}
 }
+
+/* ============================================================
+   V2 VISUAL OVERRIDES — matches the supplied cockpit reference
+   ============================================================ */
+.transition{
+  background:
+    radial-gradient(circle at 50% 50%, rgba(190,235,255,.98) 0%, rgba(92,175,255,.9) 7%, rgba(12,40,76,.98) 25%, #02060d 62%, #000 100%);
+  transform:scale(1.15);
+  opacity:0;
+}
+.transition.run{animation:cinematicFlash .9s cubic-bezier(.22,.8,.2,1) forwards}
+@keyframes cinematicFlash{
+  0%{transform:scale(1.15);opacity:0}
+  20%{transform:scale(1);opacity:1}
+  38%{transform:scale(1);opacity:1}
+  52%{transform:scale(1.04);opacity:.92}
+  100%{transform:scale(1);opacity:0}
+}
+
+/* Portfolio begins immediately inside the cockpit image. */
+.page--portfolio{background:#020507;overflow:hidden;min-height:100vh;height:100vh}
+.cockpit-hero{position:absolute;inset:70px 0 0;min-height:0;height:calc(100vh - 70px);display:block;padding:0}
+.cockpit-copy{display:none}
+.scroll-indicator{display:none}
+
+/* Exact image-like dashboard composition */
+.steering-stage{position:absolute;left:0;right:0;bottom:0;top:0;min-height:0;display:block;pointer-events:none}
+.wheel-slot{position:absolute;left:12%;bottom:-23%;width:min(440px,34vw);aspect-ratio:1;display:grid;place-items:center;pointer-events:auto;transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.wheel-slot.station-1{transform:rotate(0deg)}
+.wheel-slot.station-2{transform:rotate(-9deg)}
+.wheel-slot.station-3{transform:rotate(-18deg)}
+.wheel-slot.station-4{transform:rotate(-27deg)}
+.wheel-slot.station-5{transform:rotate(-36deg)}
+.wheel-slot.station-6{transform:rotate(-45deg)}
+.wheel-placeholder{width:84%;height:84%;border:2px dashed rgba(117,232,255,.45);background:radial-gradient(circle,rgba(117,232,255,.08),rgba(2,7,14,.7) 60%,transparent 61%);box-shadow:0 0 80px rgba(0,83,160,.16),inset 0 0 50px rgba(117,232,255,.04)}
+.wheel-placeholder__center{font-size:15px}
+.wheel-image{width:96%;height:96%;z-index:3}
+.wheel-upload{z-index:4;bottom:3%;white-space:nowrap}
+.steering-caption{position:absolute;left:calc(12% + min(220px,17vw));bottom:5%;transform:translateX(-50%);z-index:5;pointer-events:none}
+
+/* CV stations become individual app pages — clicking nav changes page. */
+.cv-shell{position:absolute;z-index:8;inset:70px 0 0;max-width:none;margin:0;padding:0;overflow:hidden}
+.cv-intro-strip{display:none}
+.cv-section{display:none;position:absolute;inset:0;border:0;padding:7vh 6vw 10vh 42%;scroll-margin:0;background:transparent}
+.cv-section.is-active{display:block;animation:panelIn .55s cubic-bezier(.2,.75,.2,1) both}
+@keyframes panelIn{from{opacity:0;transform:translateX(25px) scale(.985)}to{opacity:1;transform:none}}
+.section-index{display:none}
+.section-content{max-width:650px;max-height:76vh;overflow:auto;padding:30px 34px 34px;background:linear-gradient(145deg,rgba(4,12,22,.88),rgba(4,8,15,.66));border:1px solid rgba(120,190,255,.16);box-shadow:0 25px 70px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.06);backdrop-filter:blur(13px)}
+.section-content h2{font-size:clamp(42px,4.2vw,72px)}
+.section-content .lead{font-size:15px;line-height:1.7}
+.closing-section{display:none}
+
+/* Hide the old long-page behaviour entirely */
+.cv-section + .cv-section{border-top:0}
+
+@media(max-width:900px){
+  .portfolio-nav{grid-template-columns:auto 1fr auto}
+  .portfolio-nav nav{grid-column:auto;grid-row:auto;overflow:visible;justify-content:center;flex-wrap:wrap}
+  .cockpit-hero{inset:70px 0 0}
+  .wheel-slot{left:2%;bottom:-24%;width:44vw}
+  .steering-caption{left:calc(2% + 22vw)}
+  .cv-section{padding:5vh 4vw 8vh 30%}
+}
+@media(max-width:650px){
+  .portfolio-nav{min-height:64px;grid-template-columns:1fr auto;padding:12px 14px}
+  .portfolio-nav nav{grid-column:1/-1;grid-row:2;overflow-x:auto;justify-content:flex-start;flex-wrap:nowrap}
+  .download-mini{display:none}
+  .cv-shell{inset:100px 0 0}
+  .cv-section{inset:0;padding:3vh 5vw 8vh}
+  .section-content{max-height:72vh;padding:22px 18px}
+  .wheel-slot{left:-16%;bottom:-13%;width:60vw;opacity:.62}
+  .steering-caption{display:none}
+}
