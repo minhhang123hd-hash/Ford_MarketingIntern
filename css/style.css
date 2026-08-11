@@ -680,7 +680,7 @@ body.intro-open{overflow:hidden}
 .candidate-name {
     color: rgba(255,255,255,.55);
 
-    font: 9px var(--mono);
+    font: 11px var(--mono);
 
     letter-spacing: .15em;
 }
