@@ -249,13 +249,24 @@ body.intro-open{overflow:hidden}
 .real-cockpit {
     position: absolute;
     inset: 0;
+
     z-index: 0;
+
     overflow: hidden;
-    background: #020305;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 35%,
+            rgba(35, 110, 190, .55) 0%,
+            rgba(12, 48, 95, .65) 28%,
+            rgba(3, 16, 35, .95) 65%,
+            #01050c 100%
+        );
 }
 
 .cockpit-image {
     position: absolute;
+
     inset: 0;
 
     width: 100%;
@@ -268,29 +279,35 @@ body.intro-open{overflow:hidden}
     transform: scale(1.02);
 
     display: block;
-}
 
+    opacity: .88;
+
+    mix-blend-mode: normal;
+}
 
 /* Dark cinematic layer */
 
 .cockpit-overlay {
     position: absolute;
+
     inset: 0;
+
+    z-index: 2;
 
     background:
         linear-gradient(
             90deg,
-            rgba(0,0,0,.78) 0%,
-            rgba(0,0,0,.25) 35%,
-            rgba(0,0,0,.18) 65%,
-            rgba(0,0,0,.72) 100%
+            rgba(2, 12, 28, .62) 0%,
+            rgba(4, 24, 52, .20) 38%,
+            rgba(5, 35, 70, .12) 65%,
+            rgba(1, 8, 18, .60) 100%
         ),
         linear-gradient(
             180deg,
-            rgba(0,0,0,.72) 0%,
-            transparent 28%,
-            rgba(0,0,0,.15) 55%,
-            rgba(0,0,0,.82) 100%
+            rgba(0, 8, 20, .55) 0%,
+            transparent 30%,
+            rgba(0, 20, 45, .10) 55%,
+            rgba(0, 5, 14, .75) 100%
         );
 
     pointer-events: none;
@@ -301,17 +318,46 @@ body.intro-open{overflow:hidden}
 
 .cockpit-vignette {
     position: absolute;
+
     inset: 0;
+
+    z-index: 3;
+
+    pointer-events: none;
 
     background:
         radial-gradient(
             ellipse at center,
-            transparent 35%,
-            rgba(0,0,0,.30) 65%,
-            rgba(0,0,0,.85) 100%
+            transparent 28%,
+            rgba(0, 12, 30, .20) 60%,
+            rgba(0, 3, 10, .75) 100%
         );
+}
+
+
+/* BLUE AUTOMOTIVE ATMOSPHERE */
+
+.real-cockpit::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 4;
 
     pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 25%,
+            rgba(75, 170, 255, .20),
+            transparent 55%
+        );
+
+    mix-blend-mode: screen;
+
 }
 
 
