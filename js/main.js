@@ -1,185 +1,118 @@
-/* =========================================================================
-   MAIN.JS — the scroll engine.
-
-   Three scroll-scrubbed scenes, all driven off one requestAnimationFrame
-   loop reading window.scrollY (no scroll-jacking libraries, just sticky
-   positioning + rAF, so it stays smooth and works with trackpads,
-   mouse wheels and touch alike):
-
-     1. #sceneVideo   — scrubs the Ford reveal video frame-by-frame
-     2. #sceneDoor    — splits the screen open like a roof panel
-     3. #sceneCockpit — rotates an SVG steering wheel through 5 CV stops
-   ========================================================================= */
-
 (() => {
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s, root=document) => root.querySelector(s);
+  const $$ = (s, root=document) => [...root.querySelectorAll(s)];
 
-  /* ---------------------------------------------------------- viewport fix
-     Mobile browsers resize their chrome as you scroll, which makes 100vh
-     jump around. Lock a --vh custom property to the real value instead. */
-  function setVH(){
-    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-  }
-  setVH();
-  window.addEventListener('resize', setVH);
+  const loader = $('#loader');
+  const loaderFill = $('#loaderFill');
+  const intro = $('#introPage');
+  const portfolio = $('#portfolioPage');
+  const transition = $('#transition');
+  const introVideo = $('#introVideo');
+  const enterBtn = $('#enterPortfolio');
+  const backBtn = $('#backToIntro');
 
-  /* --------------------------------------------------------- build content */
-  const windshield = document.getElementById('windshield');
-  const dashDots = document.getElementById('dashDots');
+  document.body.classList.add('intro-open');
 
-  PANELS.forEach((p, i) => {
-    const panel = document.createElement('div');
-    panel.className = 'cv-panel';
-    panel.dataset.index = i;
-    panel.innerHTML = `
-      <div class="cv-panel__gauge">
-        <span class="cv-panel__stop">${p.stop}</span>
-        <span class="cv-panel__label">${p.gauge}</span>
-      </div>
-      <h3 class="cv-panel__title">${p.title}</h3>
-      <div class="cv-panel__body">${p.body}</div>
-      <div class="cv-panel__stats">
-        ${p.stats.map(s => `
-          <div>
-            <div class="cv-panel__stat-value">${s.value}</div>
-            <div class="cv-panel__stat-label">${s.label}</div>
-          </div>`).join('')}
-      </div>
-    `;
-    windshield.appendChild(panel);
+  // Smooth loader: do not wait for canplaythrough. A large video can otherwise
+  // make the first seconds feel frozen. We only wait for metadata + a short
+  // minimum visual delay, then let the browser continue loading in the background.
+  let progress = 0;
+  const loaderTimer = setInterval(() => {
+    progress = Math.min(progress + 7, 92);
+    loaderFill.style.width = progress + '%';
+  }, 90);
 
-    const dot = document.createElement('div');
-    dot.className = 'dash-dots__dot';
-    dashDots.appendChild(dot);
-  });
-
-  document.getElementById('chromeName').textContent = CANDIDATE.name;
-
-  document.getElementById('endEyebrow').textContent = END_SCREEN.eyebrow;
-  document.getElementById('endHeadline').textContent = END_SCREEN.headline;
-  document.getElementById('endBody').textContent = END_SCREEN.body;
-  document.getElementById('endCommitment').textContent = END_SCREEN.commitment;
-  document.getElementById('endCta').textContent = END_SCREEN.cta + ' ↗';
-  document.getElementById('endCta').href = `mailto:${CANDIDATE.email.replace(/[\[\]]/g,'') || 'youremail@example.com'}`;
-  document.getElementById('contactPhone').textContent = '☎ ' + CANDIDATE.phone;
-  document.getElementById('contactEmail').textContent = '✉ ' + CANDIDATE.email;
-  document.getElementById('contactLinkedin').textContent = '↗ ' + CANDIDATE.linkedin;
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  /* ------------------------------------------------------------- elements */
-  const video = document.getElementById('revealVideo');
-  const sceneVideo = document.getElementById('sceneVideo');
-  const sceneDoor = document.getElementById('sceneDoor');
-  const sceneCockpit = document.getElementById('sceneCockpit');
-
-  const heroCopy = document.getElementById('heroCopy');
-  const scrollCue = document.getElementById('scrollCue');
-  const camAngle = document.getElementById('camAngle');
-  const chrome = document.getElementById('chrome');
-  const progressFill = document.getElementById('progressFill');
-
-  const doorTop = document.getElementById('doorTop');
-  const doorBottom = document.getElementById('doorBottom');
-  const doorCaption = document.getElementById('doorCaption');
-
-  const wheel = document.getElementById('wheel');
-  const stopNum = document.getElementById('stopNum');
-  const stopName = document.getElementById('stopName');
-  const cockpitHint = document.getElementById('cockpitHint');
-  const cvPanels = Array.from(document.querySelectorAll('.cv-panel'));
-  const dots = Array.from(document.querySelectorAll('.dash-dots__dot'));
-
-  const skipBtn = document.getElementById('skipBtn');
-  skipBtn.addEventListener('click', () => {
-    sceneCockpit.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-  });
-
-  /* --------------------------------------------------------------- loader */
-  const loader = document.getElementById('loader');
-  const loaderFill = document.getElementById('loaderFill');
-  let videoReady = false;
-
-  function finishLoading(){
+  function finishLoader(){
+    clearInterval(loaderTimer);
     loaderFill.style.width = '100%';
-    setTimeout(() => loader.classList.add('is-hidden'), 220);
+    setTimeout(() => loader.classList.add('is-hidden'), 180);
+  }
+  introVideo.addEventListener('loadedmetadata', () => setTimeout(finishLoader, 180));
+  setTimeout(finishLoader, 1800);
+
+  // Play normally instead of assigning currentTime on every scroll frame.
+  // That old approach caused frame seeking / decoding stutter.
+  introVideo.play().catch(() => {});
+
+  function switchPage(target){
+    transition.classList.remove('run');
+    void transition.offsetWidth;
+    transition.classList.add('run');
+
+    setTimeout(() => {
+      const openingPortfolio = target === 'portfolio';
+      intro.classList.toggle('is-active', !openingPortfolio);
+      portfolio.classList.toggle('is-active', openingPortfolio);
+      document.body.classList.toggle('intro-open', !openingPortfolio);
+      document.body.classList.toggle('portfolio-open', openingPortfolio);
+
+      if(openingPortfolio){
+        window.scrollTo({top:0, behavior:'auto'});
+        introVideo.pause();
+      }else{
+        window.scrollTo({top:0, behavior:'auto'});
+        introVideo.currentTime = 0;
+        introVideo.play().catch(()=>{});
+      }
+    }, 480);
   }
 
-  video.addEventListener('progress', () => {
-    if (video.buffered.length && video.duration){
-      const pct = (video.buffered.end(0) / video.duration) * 100;
-      loaderFill.style.width = Math.min(pct, 96) + '%';
-    }
+  enterBtn.addEventListener('click', () => switchPage('portfolio'));
+  backBtn.addEventListener('click', () => switchPage('intro'));
+
+  // CV station navigation
+  const navButtons = $$('#sectionNav button');
+  const sections = $$('.cv-section');
+
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.target);
+      if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
   });
-  video.addEventListener('loadedmetadata', () => { videoReady = true; });
-  video.addEventListener('canplaythrough', finishLoading);
-  // Safety net: never trap the user behind the loader.
-  setTimeout(finishLoading, 4500);
-  video.load();
 
-  /* ------------------------------------------------------------- helpers */
-  const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
-  const lerp = (a, b, t) => a + (b - a) * t;
+  const stationNo = $('#stationNo');
+  const stationName = $('#stationName');
 
-  function progressOf(el){
-    const rect = el.getBoundingClientRect();
-    const total = el.offsetHeight - window.innerHeight;
-    if (total <= 0) return rect.top <= 0 ? 1 : 0;
-    return clamp(-rect.top / total);
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting && entry.intersectionRatio > .25){
+        const no = entry.target.dataset.station;
+        const label = entry.target.dataset.label;
+        stationNo.textContent = no;
+        stationName.textContent = label;
+        navButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.target === entry.target.id));
+      }
+    });
+  }, {threshold:[.25,.5], rootMargin:'-15% 0px -45% 0px'});
+
+  sections.forEach(s => observer.observe(s));
+
+  // Steering wheel image slot: user can drop in any transparent PNG/JPG/WebP.
+  const wheelInput = $('#wheelInput');
+  const wheelImage = $('#wheelImage');
+  const wheelPlaceholder = $('.wheel-placeholder');
+  const wheelSlot = $('#wheelSlot');
+
+  function showWheel(file){
+    if(!file || !file.type.startsWith('image/')) return;
+    const url = URL.createObjectURL(file);
+    wheelImage.src = url;
+    wheelImage.hidden = false;
+    wheelPlaceholder.style.display = 'none';
   }
+  wheelInput.addEventListener('change', e => showWheel(e.target.files[0]));
+  wheelSlot.addEventListener('dragover', e => { e.preventDefault(); wheelSlot.classList.add('dragging'); });
+  wheelSlot.addEventListener('dragleave', () => wheelSlot.classList.remove('dragging'));
+  wheelSlot.addEventListener('drop', e => {
+    e.preventDefault();
+    wheelSlot.classList.remove('dragging');
+    showWheel(e.dataTransfer.files[0]);
+  });
 
-  /* ------------------------------------------------------------ rAF loop */
-  let ticking = false;
-
-  function render(){
-    ticking = false;
-
-    /* ---- global progress bar ---- */
-    const doc = document.documentElement;
-    const total = doc.scrollHeight - window.innerHeight;
-    progressFill.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
-    chrome.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.15);
-
-    /* ---- scene 1 : video reveal ---- */
-    const pVideo = progressOf(sceneVideo);
-    if (videoReady && video.duration){
-      video.currentTime = pVideo * (video.duration - 0.05);
-    }
-    heroCopy.style.opacity = 1 - clamp(pVideo / 0.18);
-    heroCopy.style.transform = `translateY(${lerp(0, -40, clamp(pVideo / 0.18))}px)`;
-    scrollCue.style.opacity = pVideo > 0.06 ? 0 : 1;
-    const camStep = Math.min(3, Math.floor(pVideo * 3) + 1);
-    camAngle.textContent = 'CAM 0' + camStep;
-    skipBtn.classList.toggle('is-hidden', pVideo > 0.03);
-
-    /* ---- scene 2 : door split ---- */
-    const pDoor = progressOf(sceneDoor);
-    const eased = pDoor * pDoor * (3 - 2 * pDoor); // smoothstep
-    doorTop.style.transform = `translateY(${lerp(0, -100, eased)}%)`;
-    doorBottom.style.transform = `translateY(${lerp(0, 100, eased)}%)`;
-    doorCaption.style.opacity = 1 - clamp(pDoor / 0.5);
-
-    /* ---- scene 3 : cockpit wheel ---- */
-    const pCockpit = progressOf(sceneCockpit);
-    const stops = PANELS.length;
-    const rotation = pCockpit * stops * 210; // degrees of travel per stop
-    wheel.style.transform = `rotate(${rotation}deg)`;
-
-    const activeIndex = Math.min(stops - 1, Math.floor(pCockpit * stops));
-    cvPanels.forEach((panel, i) => panel.classList.toggle('is-active', i === activeIndex));
-    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === activeIndex));
-    stopNum.textContent = PANELS[activeIndex].stop;
-    stopName.textContent = PANELS[activeIndex].gauge;
-    cockpitHint.style.opacity = pCockpit > 0.08 ? 0 : 1;
-  }
-
-  function onScroll(){
-    if (!ticking){
-      requestAnimationFrame(render);
-      ticking = true;
-    }
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  render();
+  // Keyboard shortcut: Enter from intro, Escape back from portfolio.
+  window.addEventListener('keydown', e => {
+    if(e.key === 'Enter' && intro.classList.contains('is-active')) switchPage('portfolio');
+    if(e.key === 'Escape' && portfolio.classList.contains('is-active')) switchPage('intro');
+  });
 })();
