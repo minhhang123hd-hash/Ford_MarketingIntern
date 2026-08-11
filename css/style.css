@@ -242,3 +242,295 @@ body.intro-open{overflow:hidden}
   .wheel-slot{left:-16%;bottom:-13%;width:60vw;opacity:.62}
   .steering-caption{display:none}
 }
+/* =====================================================
+   REAL COCKPIT BACKGROUND
+   ===================================================== */
+
+.real-cockpit {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    background: #020305;
+}
+
+.cockpit-image {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    object-position: center center;
+
+    transform: scale(1.02);
+
+    display: block;
+}
+
+
+/* Dark cinematic layer */
+
+.cockpit-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.78) 0%,
+            rgba(0,0,0,.25) 35%,
+            rgba(0,0,0,.18) 65%,
+            rgba(0,0,0,.72) 100%
+        ),
+        linear-gradient(
+            180deg,
+            rgba(0,0,0,.72) 0%,
+            transparent 28%,
+            rgba(0,0,0,.15) 55%,
+            rgba(0,0,0,.82) 100%
+        );
+
+    pointer-events: none;
+}
+
+
+/* Edge vignette */
+
+.cockpit-vignette {
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 35%,
+            rgba(0,0,0,.30) 65%,
+            rgba(0,0,0,.85) 100%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   STEERING WHEEL AREA
+   ===================================================== */
+
+.steering-stage {
+    position: absolute;
+
+    left: 4%;
+    bottom: 3%;
+
+    width: 42vw;
+    height: 55vh;
+
+    z-index: 10;
+
+    pointer-events: none;
+}
+
+
+.wheel-frame {
+    position: absolute;
+
+    width: min(430px, 32vw);
+    aspect-ratio: 1 / 1;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+}
+
+
+/* Placeholder */
+
+.wheel-empty {
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 50%;
+
+    border:
+        2px dashed
+        rgba(120,190,255,.35);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(30,80,130,.10),
+            rgba(0,0,0,.28)
+        );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: .4s ease;
+}
+
+
+.wheel-empty:hover {
+    border-color: rgba(120,200,255,.75);
+
+    box-shadow:
+        0 0 50px rgba(50,150,255,.20);
+}
+
+
+.wheel-text {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 3px;
+
+    font-family: 'Space Mono', monospace;
+
+    color: rgba(200,225,245,.55);
+
+    letter-spacing: .2em;
+
+    font-size: 10px;
+
+    text-align: center;
+}
+
+
+.wheel-text span {
+    font-size: 17px;
+
+    font-weight: 700;
+
+    color: rgba(220,240,255,.7);
+}
+
+
+.wheel-text small {
+    margin-top: 10px;
+
+    font-size: 7px;
+
+    color: rgba(130,170,205,.6);
+}
+
+
+/* Crosshair */
+
+.wheel-cross::before,
+.wheel-cross::after {
+    content: "";
+
+    position: absolute;
+
+    background: rgba(100,180,255,.20);
+}
+
+
+.wheel-cross::before {
+    width: 1px;
+    height: 100%;
+
+    left: 50%;
+    top: 0;
+}
+
+
+.wheel-cross::after {
+    width: 100%;
+    height: 1px;
+
+    left: 0;
+    top: 50%;
+}
+
+
+/* Real steering wheel */
+
+.real-steering-wheel {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    z-index: 5;
+
+    display: block;
+
+    filter:
+        drop-shadow(0 25px 35px rgba(0,0,0,.7));
+
+    transition:
+        transform .5s ease,
+        opacity .4s ease;
+}
+
+
+/* Nếu chưa có ảnh thì placeholder vẫn đẹp */
+
+.real-steering-wheel[src="assets/steering-wheel.png"] {
+    opacity: 1;
+}
+
+
+/* =====================================================
+   INTRO NAME
+   ===================================================== */
+
+.intro-content h1 {
+    line-height: 1;
+
+    margin: 0;
+}
+
+
+.name-line {
+    display: block;
+}
+
+
+.name-line-1 {
+    margin-bottom: 30px;
+}
+
+
+.name-line-2 {
+    margin-top: 0;
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+    .name-line-1 {
+        margin-bottom: 20px;
+    }
+
+    .steering-stage {
+        left: -10%;
+        bottom: -5%;
+
+        width: 55vw;
+        height: 45vh;
+    }
+
+    .wheel-frame {
+        width: 48vw;
+    }
+
+}
