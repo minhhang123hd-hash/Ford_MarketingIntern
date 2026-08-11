@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>[Tên bạn] × Ford — Internship Portfolio</title>
+<meta name="description" content="Interactive portfolio built for the Ford Internship Program." />
+<link rel="icon" href="assets/ford-logo.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ===================== LOADER ===================== -->
+<div class="loader" id="loader">
+  <img src="assets/ford-logo.png" alt="Ford" class="loader__logo" />
+  <div class="loader__bar"><div class="loader__fill" id="loaderFill"></div></div>
+  <p class="loader__label">STARTING ENGINE…</p>
+</div>
+
+<!-- ===================== FIXED CHROME (nav / progress) ===================== -->
+<header class="chrome" id="chrome">
+  <div class="chrome__brand">
+    <img src="assets/ford-logo.png" alt="Ford" class="chrome__logo" />
+    <span class="chrome__divider"></span>
+    <span class="chrome__name" id="chromeName">[Tên bạn]</span>
+  </div>
+  <div class="chrome__meta">
+    <span class="chrome__role">Internship Portfolio</span>
+  </div>
+</header>
+
+<div class="progress-rail" id="progressRail" aria-hidden="true">
+  <div class="progress-rail__fill" id="progressFill"></div>
+</div>
+
+<button class="skip-btn" id="skipBtn" type="button">Bỏ qua intro ↓</button>
+
+<main id="main">
+
+  <!-- ===================== SCENE 1 — VIDEO REVEAL (scroll-scrubbed) ===================== -->
+  <section class="scene scene--video" id="sceneVideo" style="--scene-vh: 380;">
+    <div class="scene__sticky">
+      <video
+        id="revealVideo"
+        class="reveal-video"
+        muted
+        playsinline
+        preload="auto"
+        poster="assets/video-poster.jpg"
+        src="assets/ford-territory-reveal.mp4"
+      ></video>
+      <div class="reveal-video__vignette"></div>
+
+      <div class="hero-copy" id="heroCopy">
+        <p class="eyebrow">FORD INTERNSHIP PROGRAM · 2026</p>
+        <h1 class="hero-title">
+          <span>[TÊN BẠN]</span>
+          <span class="hero-title__sub">for Ford Business &amp; Marketing</span>
+        </h1>
+      </div>
+
+      <div class="scroll-cue" id="scrollCue">
+        <span>Cuộn để khởi động</span>
+        <div class="scroll-cue__line"><i></i></div>
+      </div>
+
+      <div class="hud-line hud-line--tl">TERRITORY · PLATINUM</div>
+      <div class="hud-line hud-line--br" id="camAngle">CAM 01</div>
+    </div>
+  </section>
+
+  <!-- ===================== SCENE 2 — DOORS SPLIT OPEN ===================== -->
+  <section class="scene scene--door" id="sceneDoor" style="--scene-vh: 180;">
+    <div class="scene__sticky">
+      <img src="assets/ambient-blue.jpg" alt="" class="door-bg" />
+      <div class="door-panel door-panel--top" id="doorTop"></div>
+      <div class="door-panel door-panel--bottom" id="doorBottom"></div>
+      <p class="door-caption" id="doorCaption">MỞ CỬA · BƯỚC VÀO KHOANG LÁI</p>
+    </div>
+  </section>
+
+  <!-- ===================== SCENE 3 — COCKPIT / STEERING WHEEL CV ===================== -->
+  <section class="scene scene--cockpit" id="sceneCockpit" style="--scene-vh: 620;">
+    <div class="scene__sticky">
+      <img src="assets/ambient-blue.jpg" alt="" class="cockpit-bg" />
+      <div class="cockpit-vignette"></div>
+
+      <!-- Windshield content panels -->
+      <div class="windshield" id="windshield">
+        <!-- panels injected by JS from content.js -->
+      </div>
+
+      <!-- Steering wheel -->
+      <div class="wheel-wrap">
+        <svg class="wheel" id="wheel" viewBox="0 0 320 320" aria-hidden="true">
+          <circle class="wheel__rim" cx="160" cy="160" r="132"/>
+          <circle class="wheel__rim-inner" cx="160" cy="160" r="118"/>
+          <g class="wheel__spokes">
+            <rect x="152" y="46" width="16" height="90" rx="8"/>
+            <rect x="152" y="184" width="16" height="90" rx="8" transform="rotate(120 160 229)"/>
+            <rect x="152" y="184" width="16" height="90" rx="8" transform="rotate(240 160 229)"/>
+          </g>
+          <circle class="wheel__hub" cx="160" cy="160" r="46"/>
+          <text x="160" y="167" class="wheel__hub-text" text-anchor="middle">FORD</text>
+        </svg>
+        <div class="wheel-stop-label">
+          <span class="wheel-stop-label__num" id="stopNum">01</span>
+          <span class="wheel-stop-label__name" id="stopName">PROFILE</span>
+        </div>
+      </div>
+
+      <div class="dash-dots" id="dashDots"></div>
+
+      <p class="cockpit-hint" id="cockpitHint">Cuộn để xoay vô lăng &amp; khám phá hồ sơ</p>
+    </div>
+  </section>
+
+  <!-- ===================== SCENE 4 — END CARD ===================== -->
+  <section class="scene scene--end" id="sceneEnd">
+    <img src="assets/ambient-blue.jpg" alt="" class="end-bg" />
+    <div class="end-vignette"></div>
+    <div class="end-content">
+      <p class="eyebrow" id="endEyebrow"></p>
+      <h2 class="end-title" id="endHeadline"></h2>
+      <p class="end-body" id="endBody"></p>
+
+      <div class="end-actions">
+        <a class="btn btn--primary" id="endCta" href="mailto:youremail@example.com">Get in touch ↗</a>
+        <a class="btn btn--ghost" href="assets/CV.pdf" download>Tải CV (PDF)</a>
+      </div>
+
+      <p class="end-commitment" id="endCommitment"></p>
+
+      <div class="end-contacts">
+        <span id="contactPhone"></span>
+        <span id="contactEmail"></span>
+        <span id="contactLinkedin"></span>
+      </div>
+    </div>
+    <footer class="site-footer">
+      Built with care for the Ford Internship Program — [Tên bạn], <span id="year"></span>.
+    </footer>
+  </section>
+
+</main>
+
+<script src="js/content.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
