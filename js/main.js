@@ -1,6 +1,6 @@
 (() => {
-  const $ = (s, root=document) => root.querySelector(s);
-  const $$ = (s, root=document) => [...root.querySelectorAll(s)];
+  const $ = (s, root = document) => root.querySelector(s);
+  const $$ = (s, root = document) => [...root.querySelectorAll(s)];
 
   const loader = $('#loader');
   const loaderFill = $('#loaderFill');
@@ -10,31 +10,42 @@
   const introVideo = $('#introVideo');
   const enterBtn = $('#enterPortfolio');
   const backBtn = $('#backToIntro');
+  const navButtons = $$('#sectionNav button');
+  const sections = $$('.cv-section');
+  const stationNo = $('#stationNo');
+  const stationName = $('#stationName');
+  const wheelInput = $('#wheelInput');
+  const wheelImage = $('#wheelImage');
+  const wheelPlaceholder = $('.wheel-placeholder');
+  const wheelSlot = $('#wheelSlot');
 
   document.body.classList.add('intro-open');
 
-  // Smooth loader: do not wait for canplaythrough. A large video can otherwise
-  // make the first seconds feel frozen. We only wait for metadata + a short
-  // minimum visual delay, then let the browser continue loading in the background.
+  /* ---------------------------------------------------------
+     LOADER — intentionally short. Do NOT wait for canplaythrough.
+     This prevents the opening from feeling frozen while the MP4
+     continues buffering in the background.
+  --------------------------------------------------------- */
   let progress = 0;
   const loaderTimer = setInterval(() => {
-    progress = Math.min(progress + 7, 92);
+    progress = Math.min(progress + 8, 92);
     loaderFill.style.width = progress + '%';
-  }, 90);
+  }, 70);
 
-  function finishLoader(){
+  function finishLoader() {
     clearInterval(loaderTimer);
     loaderFill.style.width = '100%';
-    setTimeout(() => loader.classList.add('is-hidden'), 180);
+    setTimeout(() => loader.classList.add('is-hidden'), 160);
   }
-  introVideo.addEventListener('loadedmetadata', () => setTimeout(finishLoader, 180));
-  setTimeout(finishLoader, 1800);
+  introVideo.addEventListener('loadedmetadata', () => setTimeout(finishLoader, 120), { once: true });
+  setTimeout(finishLoader, 1500);
 
-  // Play normally instead of assigning currentTime on every scroll frame.
-  // That old approach caused frame seeking / decoding stutter.
-  introVideo.play().catch(() => {});
-
-  function switchPage(target){
+  /* ---------------------------------------------------------
+     PAGE TRANSITION
+     A white/ice flash is layered into the transition so the
+     00:18 camera move feels like entering the cockpit.
+  --------------------------------------------------------- */
+  function switchPage(target) {
     transition.classList.remove('run');
     void transition.offsetWidth;
     transition.classList.add('run');
@@ -46,13 +57,15 @@
       document.body.classList.toggle('intro-open', !openingPortfolio);
       document.body.classList.toggle('portfolio-open', openingPortfolio);
 
-      if(openingPortfolio){
-        window.scrollTo({top:0, behavior:'auto'});
+      if (openingPortfolio) {
         introVideo.pause();
-      }else{
-        window.scrollTo({top:0, behavior:'auto'});
+        window.scrollTo(0, 0);
+        setActiveSection('profile', false);
+      } else {
+        window.scrollTo(0, 0);
         introVideo.currentTime = 0;
-        introVideo.play().catch(()=>{});
+        introVideo.dataset.transitioned = '';
+        introVideo.play().catch(() => {});
       }
     }, 480);
   }
@@ -60,42 +73,51 @@
   enterBtn.addEventListener('click', () => switchPage('portfolio'));
   backBtn.addEventListener('click', () => switchPage('intro'));
 
-  // CV station navigation
-  const navButtons = $$('#sectionNav button');
-  const sections = $$('.cv-section');
-
-  navButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = document.getElementById(btn.dataset.target);
-      if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
-    });
+  /* ---------------------------------------------------------
+     INTRO VIDEO — NORMAL PLAYBACK, NOT SCROLL SCRUBBING.
+     The portfolio opens automatically at exactly 18 seconds.
+  --------------------------------------------------------- */
+  introVideo.addEventListener('timeupdate', () => {
+    if (introVideo.currentTime >= 18 && !introVideo.dataset.transitioned) {
+      introVideo.dataset.transitioned = 'true';
+      switchPage('portfolio');
+    }
   });
 
-  const stationNo = $('#stationNo');
-  const stationName = $('#stationName');
+  introVideo.addEventListener('ended', () => {
+    if (!introVideo.dataset.transitioned) switchPage('portfolio');
+  });
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting && entry.intersectionRatio > .25){
-        const no = entry.target.dataset.station;
-        const label = entry.target.dataset.label;
-        stationNo.textContent = no;
-        stationName.textContent = label;
-        navButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.target === entry.target.id));
-      }
-    });
-  }, {threshold:[.25,.5], rootMargin:'-15% 0px -45% 0px'});
+  introVideo.play().catch(() => {});
 
-  sections.forEach(s => observer.observe(s));
+  /* ---------------------------------------------------------
+     PORTFOLIO = APP-LIKE PAGES, NOT ONE LONG CV SCROLL.
+     Each top nav button replaces the visible CV station.
+  --------------------------------------------------------- */
+  function setActiveSection(id, updateUrl = true) {
+    const target = document.getElementById(id);
+    if (!target) return;
 
-  // Steering wheel image slot: user can drop in any transparent PNG/JPG/WebP.
-  const wheelInput = $('#wheelInput');
-  const wheelImage = $('#wheelImage');
-  const wheelPlaceholder = $('.wheel-placeholder');
-  const wheelSlot = $('#wheelSlot');
+    sections.forEach(section => section.classList.toggle('is-active', section === target));
+    navButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.target === id));
 
-  function showWheel(file){
-    if(!file || !file.type.startsWith('image/')) return;
+    stationNo.textContent = target.dataset.station;
+    stationName.textContent = target.dataset.label;
+
+    const wheel = $('.wheel-slot');
+    wheel.classList.remove('station-1','station-2','station-3','station-4','station-5','station-6');
+    wheel.classList.add(`station-${target.dataset.station}`);
+
+    if (updateUrl) history.replaceState({ page: 'portfolio', panel: id }, '', `#portfolio/${id}`);
+  }
+
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => setActiveSection(btn.dataset.target));
+  });
+
+  /* Steering wheel upload / drag-drop placeholder */
+  function showWheel(file) {
+    if (!file || !file.type.startsWith('image/')) return;
     const url = URL.createObjectURL(file);
     wheelImage.src = url;
     wheelImage.hidden = false;
@@ -110,9 +132,23 @@
     showWheel(e.dataTransfer.files[0]);
   });
 
-  // Keyboard shortcut: Enter from intro, Escape back from portfolio.
+  window.addEventListener('popstate', () => {
+    const hash = location.hash;
+    if (hash.startsWith('#portfolio/')) {
+      const id = hash.split('/')[1];
+      if (!portfolio.classList.contains('is-active')) switchPage('portfolio');
+      setActiveSection(CV_SECTION_IDS.includes(id) ? id : 'profile', false);
+    } else {
+      switchPage('intro');
+    }
+  });
+
+  const CV_SECTION_IDS = sections.map(section => section.id);
+  const initialPanel = location.hash.startsWith('#portfolio/') ? location.hash.split('/')[1] : 'profile';
+  setActiveSection(CV_SECTION_IDS.includes(initialPanel) ? initialPanel : 'profile', false);
+
   window.addEventListener('keydown', e => {
-    if(e.key === 'Enter' && intro.classList.contains('is-active')) switchPage('portfolio');
-    if(e.key === 'Escape' && portfolio.classList.contains('is-active')) switchPage('intro');
+    if (e.key === 'Enter' && intro.classList.contains('is-active')) switchPage('portfolio');
+    if (e.key === 'Escape' && portfolio.classList.contains('is-active')) switchPage('intro');
   });
 })();
