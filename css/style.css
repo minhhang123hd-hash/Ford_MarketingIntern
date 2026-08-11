@@ -98,7 +98,7 @@ body.intro-open{overflow:hidden}
 .brand-btn .ford-wordmark{color:#fff}.brand-btn>span:last-child{font:12px var(--display);letter-spacing:.12em}
 .nav-divider{width:1px;height:18px;background:rgba(255,255,255,.22)}
 .portfolio-nav nav{display:flex;justify-content:center;gap:7px;flex-wrap:wrap}
-.portfolio-nav nav button{border:0;background:transparent;color:rgba(255,255,255,.55);font:9px var(--mono);letter-spacing:.13em;padding:8px 7px;cursor:pointer;transition:.2s}
+.portfolio-nav nav button{border:0;background:transparent;color:rgba(255,255,255,.55);font:12px var(--mono);letter-spacing:.13em;padding:8px 7px;cursor:pointer;transition:.2s}
 .portfolio-nav nav button:hover,.portfolio-nav nav button.active{color:var(--ice)}
 .download-mini{font:9px var(--mono);letter-spacing:.13em;border:1px solid rgba(255,255,255,.18);padding:9px 12px;color:#fff}
 
@@ -652,7 +652,7 @@ body.intro-open{overflow:hidden}
 
 .ford-logo {
     width: auto;
-    height: 20px;
+    height: 24px;
 
     object-fit: contain;
 }
@@ -660,7 +660,7 @@ body.intro-open{overflow:hidden}
 .ford-wordmark {
     color: #fff;
 
-    font: 800 20px var(--display);
+    font: 800 24px var(--display);
 
     line-height: 1;
 
