@@ -77,18 +77,72 @@
      INTRO VIDEO — NORMAL PLAYBACK, NOT SCROLL SCRUBBING.
      The portfolio opens automatically at exactly 18 seconds.
   --------------------------------------------------------- */
-  introVideo.addEventListener('timeupdate', () => {
-    if (introVideo.currentTime >= 18 && !introVideo.dataset.transitioned) {
-      introVideo.dataset.transitioned = 'true';
-      switchPage('portfolio');
+const introVideo = document.getElementById("introVideo");
+const introPage = document.getElementById("introPage");
+const portfolioPage = document.getElementById("portfolioPage");
+const transition = document.getElementById("transition");
+
+let enteredPortfolio = false;
+
+function enterPortfolio() {
+
+    if (enteredPortfolio) return;
+
+    enteredPortfolio = true;
+
+    // Start cinematic flash
+    transition.classList.add("is-active");
+
+    setTimeout(() => {
+
+        introPage.classList.remove("is-active");
+
+        portfolioPage.classList.add("is-active");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "instant"
+        });
+
+    }, 350);
+
+    setTimeout(() => {
+
+        transition.classList.remove("is-active");
+
+    }, 900);
+}
+
+
+/* Automatically enter at exactly 18 seconds */
+
+introVideo.addEventListener("timeupdate", () => {
+
+    if (
+        introVideo.currentTime >= 18 &&
+        !enteredPortfolio
+    ) {
+
+        enterPortfolio();
+
     }
-  });
 
-  introVideo.addEventListener('ended', () => {
-    if (!introVideo.dataset.transitioned) switchPage('portfolio');
-  });
+});
 
-  introVideo.play().catch(() => {});
+
+/* Manual button */
+
+const enterButton =
+    document.getElementById("enterPortfolio");
+
+if (enterButton) {
+
+    enterButton.addEventListener(
+        "click",
+        enterPortfolio
+    );
+
+}
 
   /* ---------------------------------------------------------
      PORTFOLIO = APP-LIKE PAGES, NOT ONE LONG CV SCROLL.
