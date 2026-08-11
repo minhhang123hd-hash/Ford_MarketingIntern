@@ -57,6 +57,34 @@
        ===================================================== */
 
     document.body.classList.add('intro-open');
+    /* =====================================================
+       START INTRO VIDEO
+       ===================================================== */
+
+function startIntroVideo() {
+
+    if (!introVideo) return;
+
+    introVideo.muted = true;
+    introVideo.playsInline = true;
+
+    const playPromise = introVideo.play();
+
+    if (playPromise !== undefined) {
+
+        playPromise.catch(() => {
+
+            console.log(
+                'Autoplay blocked. Waiting for user interaction.'
+            );
+
+        });
+
+    }
+
+}
+
+startIntroVideo();
 
 
     /* =====================================================
