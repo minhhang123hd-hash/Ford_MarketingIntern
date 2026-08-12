@@ -20,50 +20,150 @@
   <div class="transition" id="transition"></div>
 
   <!-- ========================= INTRO PAGE ========================= -->
+
   <main class="page page--intro is-active" id="introPage">
-    <video
-    id="introVideo"
-    class="intro-video"
-    muted
-    autoplay
-    playsinline
-    preload="auto"
-      poster="assets/video-poster.jpg">
-      <source src="assets/ford-territory-reveal.mp4" type="video/mp4">
-    </video>
-    <div class="intro-fallback"></div>
-    <div class="intro-vignette"></div>
 
-    <header class="intro-header">
-      <div class="ford-wordmark">FORD</div>
-      <div class="header-code">INTERNSHIP PROGRAM · 2026</div>
-    </header>
+      <!-- BACKGROUND VIDEO -->
+      <video
+          id="introVideo"
+          class="intro-video"
+          muted
+          autoplay
+          playsinline
+          preload="auto"
+          poster="assets/video-poster.jpg"
+      >
+          <source
+              src="assets/ford-territory-reveal.mp4"
+              type="video/mp4"
+          >
+      </video>
 
-    <div class="intro-content">
-      <p class="eyebrow">MARKETING × BUSINESS × GROWTH</p>
-      <h1>
-        <span class="name-line name-line-1">ĐOÀN THỊ</span>
-        <span class="name-line name-line-2">MINH HẰNG</span>
-      </h1>
-      <p class="intro-role">MARKETING INTERN · FOREIGN TRADE UNIVERSITY</p>
-      <div class="intro-metrics">
-        <span><b>3.8</b> GPA</span>
-        <span><b>+225%</b> AUDIENCE GROWTH</span>
-        <span><b>68.9K</b> CONTENT VIEWS</span>
+      <!-- FALLBACK BACKGROUND -->
+      <div class="intro-fallback"></div>
+
+      <!-- DARK CINEMATIC OVERLAY -->
+      <div class="intro-vignette"></div>
+
+
+      <!-- =====================================================
+           MINH HẰNG PORTRAIT
+           ===================================================== -->
+
+      <div class="intro-portrait">
+
+          <div class="portrait-glow"></div>
+
+          <img
+              src="assets/minh-hang-ford.png"
+              alt="Đoàn Thị Minh Hằng"
+          >
+
       </div>
-    </div>
 
-    <button class="enter-btn" id="enterPortfolio">
-      <span>ENTER PORTFOLIO</span>
-      <i>↗</i>
-    </button>
 
-    <div class="intro-footer">
-      <span></span>
-      <span>01 / 02</span>
-    </div>
+      <!-- =====================================================
+           HEADER
+           ===================================================== -->
+
+      <header class="intro-header">
+
+          <div class="ford-wordmark">
+              FORD
+          </div>
+
+          <div class="header-code">
+              INTERNSHIP PROGRAM · 2026
+          </div>
+
+      </header>
+
+
+      <!-- =====================================================
+           MAIN INTRO CONTENT
+           ===================================================== -->
+
+      <div class="intro-content">
+
+          <p class="eyebrow">
+              MARKETING × BUSINESS × GROWTH
+          </p>
+
+          <h1>
+
+              <span class="name-line name-line-1">
+                  ĐOÀN THỊ
+              </span>
+
+              <span class="name-line name-line-2">
+                  MINH HẰNG
+              </span>
+
+          </h1>
+
+          <p class="intro-role">
+              MARKETING INTERN · FOREIGN TRADE UNIVERSITY
+          </p>
+
+
+          <!-- METRICS -->
+
+          <div class="intro-metrics">
+
+              <span>
+                  <b>3.8</b> GPA
+              </span>
+
+              <span>
+                  <b>+225%</b> AUDIENCE GROWTH
+              </span>
+
+              <span>
+                  <b>68.9K</b> CONTENT VIEWS
+              </span>
+
+          </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           ENTER BUTTON
+           ===================================================== -->
+
+      <button
+          class="enter-btn"
+          id="enterPortfolio"
+      >
+
+          <span>
+              ENTER PORTFOLIO
+          </span>
+
+          <i>
+              ↗
+          </i>
+
+      </button>
+
+
+      <!-- =====================================================
+           FOOTER
+           ===================================================== -->
+
+      <div class="intro-footer">
+
+          <span>
+              SCROLL-CINEMATIC EXPERIENCE
+          </span>
+
+          <span>
+              01 / 02
+          </span>
+
+      </div>
+
   </main>
-
   <!-- ========================= PORTFOLIO PAGE ========================= -->
   <main class="page page--portfolio" id="portfolioPage">
     <div class="real-cockpit">
